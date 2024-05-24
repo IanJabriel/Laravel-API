@@ -1,0 +1,30 @@
+services:
+  laravelapp:
+    container_name: laravel_app
+    image: laravel-api
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    networks:
+      - laravel_network
+
+  db:
+    container_name: db
+    image: postgres:16.3
+    ports: 
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres@123
+      POSTGRES_DB: unilife
+    volumes:
+      - C:\Users\Ian Jabriel\Desktop\vol_docker:/var/lib/postgresql/data
+    networks:
+      - laravel_network
+
+networks:
+  laravel_network:
