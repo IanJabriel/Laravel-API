@@ -1,24 +1,14 @@
-FROM php:8.2-fpm
-
-RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    git \
-    unzip \
-    libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    libonig-dev \
-    libxml2-dev \
-    zip \
-    curl \
-    && docker-php-ext-install pdo pdo_pgsql mbstring exif pcntl bcmath gd
-
-WORKDIR /var/www/api
+FROM composer AS builder
+WORKDIR /home/app
 COPY . .
+RUN composer install
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN composer install --no-dev --optimize-autoloader
 
-RUN chown -R www-data:www-data /var/www/api/storage /var/www/api/bootstrap/cache
+FROM php:apache
 
-CMD ["php-fpm"]
+ENV APACHE_DOCUMENT_ROOT /home/app/public
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+
+WORKDIR /home/app
+COPY --from=builder --chown=www-data:www-data  /home/app /home/app
