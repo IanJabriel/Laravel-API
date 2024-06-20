@@ -1,10 +1,10 @@
 services:
     laravelapp:
         container_name: laravel_app
-        image: laravel-api
+        image: jabriel23/unilife
         build: .
-        # ports:
-        #     - '9000:9000'
+        ports:
+            - '8000:80'
         env_file:
             - .env
         depends_on:
@@ -12,18 +12,21 @@ services:
         networks:
             - laravel_network
     db:
-        container_name: db
+        container_name: postgres
         image: 'postgres:16.3'
-        # ports:
-        #     - '5432:5432'
+        ports:
+            - '5432:5432'
         environment:
             POSTGRES_USER: postgres
             POSTGRES_PASSWORD: postgres@123
             POSTGRES_DB: unilife
         volumes:
-            - /var/lib/postgresql/data
+            - pg_datas:/var/lib/postgresql/data
         networks:
             - laravel_network
 
+volumes:
+    pg_datas:
+    
 networks:
     laravel_network:
