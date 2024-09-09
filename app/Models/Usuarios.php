@@ -24,11 +24,16 @@ class Usuarios extends Authenticatable implements CanResetPassword
         'password',
         'Telefone',
         'RA',
-        'id_curso'
+        'id_curso',
+        'is_admin',
     ];
 
     public function usuario(){
         return $this->belongsTo(Usuarios::class);
+    }
+
+    public function curso(){
+        return $this->belongsTo(Cursos::class, 'id_curso');
     }
 
     public function filter(Request $request){
@@ -53,10 +58,10 @@ class Usuarios extends Authenticatable implements CanResetPassword
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'is_admin' => 'boolean',
     ];
 
-    // public function curso()
-    // {
-    //     return $this->belongsTo(Curso::class, 'id_curso');
-    // }
+    public function isAdmin(){
+        return $this->is_admin;
+    }
 }

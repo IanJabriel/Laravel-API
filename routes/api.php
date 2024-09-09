@@ -30,9 +30,6 @@ use Illuminate\Support\Facades\URL;
 // });
 
 Route::prefix('v1')->group(function(){
-    Route::post('/users',[UserController::class,'store']);
-    Route::get('/users',[UserController::class,'index']);
-
     Route::get('/usuarios',[UsuariosController::class,'index']);
     Route::post('/usuarios',[UsuariosController::class,'store']);
 
