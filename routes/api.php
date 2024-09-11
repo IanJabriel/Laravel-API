@@ -34,11 +34,13 @@ Route::prefix('v1')->group(function(){
     Route::post('/usuarios',[UsuariosController::class,'store']);
 
     Route::get('/cursos',[CursosController::class,'index']);
+    Route::post('/cursos',[CursosController::class,'store']);
 
     Route::post('/login',[AuthController::class , 'login']);
     Route::middleware('auth:sanctum')->group(function(){
         Route::get('/teste',[AcceptController::class,'index'])->middleware('auth:sanctum');
         Route::get('/usuarios/{usuario}',[UsuariosController::class, 'show'])->middleware('ability:usuario-get');
+        Route::post('/usuarios/{usuario',[UsuariosController::class, 'update']);
         Route::post('/logout',[AuthController::class, 'logout']);
     });
 

@@ -30,7 +30,15 @@ class CursosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated_data = $request->validate([
+            'Nome' => 'string',
+            'Duracao' => 'integer',
+        ]);
+
+        $curso = Cursos::create([
+            'Nome' => $validated_data['Nome'],
+            'Duracao' => $validated_data['Duracao'],
+        ]);
     }
 
     /**

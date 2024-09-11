@@ -34,6 +34,10 @@ class UsuariosController extends Controller
      */
     public function store(Request $request)
     {
+        // if(!auth()->check()){
+        //     return response()->json(['error'=> 'Usuario não autenticado']);
+        // }
+
         $validated_data = $request->validate([
             'name' => 'required|string',
             'id_curso' => 'nullable|integer',
@@ -91,7 +95,7 @@ class UsuariosController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $usuario = Usuarios::where('id',$id)->first();
+        $usuario = Usuarios::find($id);
 
         if(!$usuario){
             return response()->json(['error'=>'User not found'],404);

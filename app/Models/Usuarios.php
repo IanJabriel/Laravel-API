@@ -19,12 +19,12 @@ class Usuarios extends Authenticatable implements CanResetPassword
 
     protected $fillable = [
         'name',
+        'id_curso',
         'CPF',
         'email',
         'password',
         'Telefone',
         'RA',
-        'id_curso',
         'is_admin',
     ];
 
